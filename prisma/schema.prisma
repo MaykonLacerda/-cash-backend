@@ -9,3 +9,29 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String  @id @default(uuid())
+  username  String  @unique
+  password  String
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId String  @unique
+}
+
+model Account {
+  id                  String        @id @default(uuid())
+  balance             Decimal       @db.Decimal(9, 2)
+  user                User?
+  transactionDebited  Transaction[] @relation("transactionDebited")
+  transactionCredited Transaction[] @relation("transactionCredited")
+}
+
+model Transaction {
+  id                String   @id @default(cuid())
+  debited           Account  @relation(name: "transactionDebited", fields: [debitedAccountId], references: [id])
+  credited          Account  @relation(name: "transactionCredited", fields: [creditedAccountId], references: [id])
+  value             Decimal  @db.Decimal(9, 2)
+  debitedAccountId  String
+  creditedAccountId String
+  createdAt         DateTime @default(now())
+}
