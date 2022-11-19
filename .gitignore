@@ -1,7 +1,10 @@
-# compiled output
+# Compiled output
 /dist
 /build
 /node_modules
+
+# Environments variables
+.env
 
 # Logs
 logs
