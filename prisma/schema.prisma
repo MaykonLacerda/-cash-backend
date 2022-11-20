@@ -27,7 +27,7 @@ model Account {
 }
 
 model Transaction {
-  id                String   @id @default(cuid())
+  id                String   @id @default(uuid())
   debited           Account  @relation(name: "transactionDebited", fields: [debitedAccountId], references: [id])
   credited          Account  @relation(name: "transactionCredited", fields: [creditedAccountId], references: [id])
   value             Decimal  @db.Decimal(9, 2)
