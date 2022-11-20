@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 
 import { UserRepository } from '../user/user.repository';
+import { ITokenPayload } from './types';
 import { LoginDTO } from './types/dtos/login.dto';
 import { IAuthService } from './types/function';
 
@@ -16,7 +17,7 @@ export class AuthService implements IAuthService {
   ) {}
 
   async login(user: User) {
-    const payload = { username: user.username, sub: user.id };
+    const payload: ITokenPayload = { username: user.username, id: user.id };
 
     return {
       token: this.jwtService.sign(payload),

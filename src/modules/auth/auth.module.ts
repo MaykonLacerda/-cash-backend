@@ -1,20 +1,23 @@
+import config from 'src/constants/config';
+import { LocalStrategy } from 'src/strategies/local.strategy';
+
 import { Module } from '@nestjs/common';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
 import { UserModule } from '../user/user.module';
 import { UserRepository } from '../user/user.repository';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { LocalStrategy } from './strategies/local.auth';
 
 @Module({
   imports: [
     UserModule,
     PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET_KEY,
-      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
+      secret: config().jwt.secretKey,
+      signOptions: { expiresIn: config().jwt.expiresIn },
     }),
   ],
   controllers: [AuthController],
