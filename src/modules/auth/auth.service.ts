@@ -38,4 +38,17 @@ export class AuthService implements IAuthService {
 
     return user;
   }
+
+  async getTokenPayload(bearerToken: string) {
+    const [_, token] = bearerToken.split(' ');
+    const payload = this.jwtService.decode(token) as ITokenPayload;
+
+    return payload;
+  }
+
+  async getMeInfo(bearerToken: string) {
+    const payload = await this.getTokenPayload(bearerToken);
+
+    return this.userRepository.findOne({ id: payload.id });
+  }
 }
