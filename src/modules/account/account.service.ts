@@ -19,13 +19,7 @@ export class AccountService implements IAccountService {
 
     const newBalance = currentBalance - debitedBalance;
 
-    return this.accountRepository.update({
-      data: {
-        balance: newBalance,
-      },
-      where: {
-        userId,
-      },
-    });
+  async getAccountByUserId(userId: string) {
+    return this.accountRepository.findOne({ userId });
   }
 }
