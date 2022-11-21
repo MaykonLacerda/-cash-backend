@@ -45,10 +45,4 @@ export class AuthService implements IAuthService {
 
     return payload;
   }
-
-  async getMeInfo(bearerToken: string) {
-    const payload = await this.getTokenPayload(bearerToken);
-
-    return this.userRepository.findOne({ id: payload.id });
-  }
 }

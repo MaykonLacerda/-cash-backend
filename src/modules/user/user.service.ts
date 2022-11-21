@@ -2,13 +2,17 @@ import { hash } from 'bcrypt';
 
 import { ConflictException, Injectable } from '@nestjs/common';
 
+import { AuthService } from '../auth/auth.service';
 import { RegisterDTO } from './types/dtos/register.dto';
 import { IUserService } from './types/function';
 import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService implements IUserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly authService: AuthService,
+  ) {}
 
   async register(data: RegisterDTO) {
     const userFound = await this.userRepository.findOne({
@@ -36,5 +40,11 @@ export class UserService implements IUserService {
     });
 
     return user;
+  }
+
+  async getMeInfo(bearerToken: string) {
+    const payload = await this.authService.getTokenPayload(bearerToken);
+
+    return this.userRepository.findOne({ id: payload.id });
   }
 }

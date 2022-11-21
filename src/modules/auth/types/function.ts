@@ -7,5 +7,4 @@ export type IAuthService = {
   login: (data: LoginDTO) => Promise<LoginResponse>;
   validateUser: (data: LoginDTO) => Promise<User | undefined>;
   getTokenPayload: (bearerToken?: string) => Promise<ITokenPayload>;
-  getMeInfo: (bearerToken?: string) => Promise<User>;
 };
