@@ -8,5 +8,7 @@ export type IAccountRepository = {
 
 export type IAccountService = {
   debitBalance: (userId: string, debitedBalance: number) => Promise<Account>;
+  creditBalance: (userId: string, creditedBalance: number) => Promise<Account>;
+  updateBalance: (userId: string, newBalance: number) => Promise<Account>;
   getAccountByUserId: (userId: string) => Promise<Account>;
 };
